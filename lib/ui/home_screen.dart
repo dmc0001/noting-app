@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
+                      //physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
