@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:text_app/controller/note_controller.dart';
 import 'package:text_app/module/entity/note.dart';
 import 'package:text_app/module/database/database.dart';
 
 // ignore: must_be_immutable
 class DetailsNoteScreen extends StatefulWidget {
-  DetailsNoteScreen({super.key});
+  const DetailsNoteScreen({super.key});
 
   @override
   State<DetailsNoteScreen> createState() => _DetailsNoteScreenState();
@@ -12,7 +13,7 @@ class DetailsNoteScreen extends StatefulWidget {
 
 class _DetailsNoteScreenState extends State<DetailsNoteScreen> {
   NoteDatabase noteDatabase = NoteDatabase();
-
+  final NoteController _noteController = NoteController();
   Note note = Note();
 
   @override
@@ -24,9 +25,7 @@ class _DetailsNoteScreenState extends State<DetailsNoteScreen> {
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
             if (note.title.isNotEmpty || note.desc.isNotEmpty) {
-              await noteDatabase.writeData(
-                'INSERT INTO Note (title, desc) VALUES ("${note.title}", "${note.desc}")',
-              );
+              await _noteController.addNote(note);
             }
           },
           child: const Icon(Icons.save)),

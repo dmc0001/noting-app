@@ -30,11 +30,9 @@ class NoteDatabase {
     'desc' TEXT
   )
   ''');
-    print("_onCreate ============================");
   }
 
   onUpgrade(Database db, int oldVersion, int newVersion) {
-     print("_onUpgrade ============================");
   }
 
   //SELECT

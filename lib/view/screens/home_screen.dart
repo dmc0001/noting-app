@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:text_app/controller/note_controller.dart';
 import 'package:text_app/module/entity/note.dart';
-import 'package:text_app/module/database/database.dart';
-import 'package:text_app/ui/details_note_screen.dart';
-import 'package:text_app/ui/note_item.dart';
+import 'package:text_app/view/screens/details_note_screen.dart';
+import 'package:text_app/view/components/note_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Map<String, dynamic>>> notes;
+  final NoteController _noteController = NoteController();
 
   @override
   void initState() {
@@ -22,25 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> refreshNotes() async {
     setState(() {
-      notes = readData();
+      notes = _noteController.readNotes();
     });
   }
 
-  Future<List<Map<String, dynamic>>> readData() async {
-    List<Map<String, dynamic>> response =
-        await NoteDatabase().readData('SELECT * FROM Note');
-    return response;
-  }
-
   void deleteNote(int id) async {
-    await NoteDatabase().writeData('DELETE FROM Note WHERE id = $id');
-    refreshNotes();
-  }
-
-  void addNote() async {
-    // Logic to add a new note
-    // For example:
-    // await NoteDatabase().writeData('INSERT INTO Note (title, desc) VALUES ("New Note", "Description")');
+    await _noteController.deleteNote(id);
     refreshNotes();
   }
 
@@ -54,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DetailsNoteScreen()),
+            MaterialPageRoute(builder: (context) => const DetailsNoteScreen()),
           ).then((_) {
             // This code runs when the DetailsNoteScreen is popped and returns to this screen
             refreshNotes();
