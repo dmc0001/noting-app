@@ -1,4 +1,4 @@
-# text_app
+# noting-app
 
 A new Flutter project.
 
